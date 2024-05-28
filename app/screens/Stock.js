@@ -59,7 +59,6 @@ export default function AddItem() {
 
 const styles = StyleSheet.create({
     logout: {
-        color: 'black',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -108,7 +107,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         display: 'flex',
         justifyContent: 'center',
-        height: 5,
         borderRadius: 6,
         color: '#000000',
         backgroundColor: '#FFFFFF',

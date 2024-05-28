@@ -3,16 +3,44 @@ import { PieChartOutlined } from '@ant-design/icons';
 import { EuroOutlined } from '@ant-design/icons';
 import { SettingOutlined } from '@ant-design/icons';
 import { useNavigation } from '@react-navigation/core'
+import {useEffect, useState} from "react";
 
 
 export default function Home() {
 
-  const navigation = useNavigation()
+  const navigation = useNavigation();
+  const [totalItems, setTotalItems] = useState(0)
+  const [totalValue, setTotalValue] = useState(0)
+
 
   HandleNavigate = (path) => {
     navigation.replace(path)
     console.log(path)
   }
+
+  useEffect(() => {
+    // fetch data from database
+    fetch('http://localhost:8080/api/stock/value', {
+      Authorization: 'Bearer ' + localStorage.getItem('token')
+    }).then(response => response.json())
+        .then(data => {
+          setTotalValue(data.value);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+
+    fetch('http://localhost:8080/api/stock/quantity', {
+      Authorization: 'Bearer ' + localStorage.getItem('token')
+    }).then(response => response.json())
+        .then(data => {
+          setTotalItems(data.quantity);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+  }, []);
+
 
   return (
     <View style={styles.container}>
@@ -25,11 +53,11 @@ export default function Home() {
       <View style={styles.item}>
         <View style={styles.itemContent}> 
           <PieChartOutlined style={styles.icon} />
-          <Text style={styles.text}>Total Items : </Text>
+          <Text style={styles.text}>Total Items : {totalItems ? totalItems.toString() + " pcs." : "Wait..."}</Text>
         </View>
         <View style={styles.itemContent}>
           <EuroOutlined style={styles.icon} />
-          <Text style={styles.text}>Total Value : </Text>
+          <Text style={styles.text}>Total Value : {totalValue ? totalValue.toString() + " €": "Wait..."}</Text>
         </View>
         <TouchableOpacity onPress={() => HandleNavigate('Stock')} style={styles.logout}>
           <Text>Check Stock</Text>
@@ -60,7 +88,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   logout: {
-    color: 'black',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -108,7 +135,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 0.5 },
     shadowOpacity: 0.1,
     shadowRadius: 1,
-    width: 500,
     marginLeft: 'auto',
     marginRight: 'auto',
     padding: 10,
