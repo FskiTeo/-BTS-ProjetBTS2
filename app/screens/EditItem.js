@@ -1,18 +1,31 @@
 import { StyleSheet, Text, TextInput, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import ImagePicker from 'react-native-image-picker';
 const ItemImage = './assets/SneakHubLogo.PNG';
 
 
-export default function EditItem() {
+export default function EditItem({articleId}) {
 
   const navigation = useNavigation();
   const [image, setImage] = useState(null);
 
+  const [data, setData] = useState();
+
   const HandleNavigate = (path) => {
     navigation.replace(path);
   };
+
+  useEffect(() => {
+    fetch(`http://localhost:8080/api/articles/stock/${articleId}`)
+        .then(response => response.json())
+        .then(data => {
+          setData(data);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+  });
 
   const pickImage = () => {
     const options = {
@@ -54,11 +67,13 @@ export default function EditItem() {
         </TouchableOpacity>
       <View>
       <TextInput
-          placeholder="Brand"
+          placeholder="Title"
+          value={data.title ? data.title : ''}
           style={styles.input}
         />
         <TextInput
-          placeholder="Name"
+          placeholder="Description"
+            value={data.description ? data.description : ''}
           style={styles.input}
         />
         <TextInput
@@ -127,7 +142,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   logout: {
-    color: 'black',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',

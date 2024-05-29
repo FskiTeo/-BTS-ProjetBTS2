@@ -11,18 +11,24 @@ export default function AddItem() {
     const HandleNavigate = () => {
         navigation.replace('Home');
         console.log('Home');
-    };  
+    };
+
+    const funcHandleNavigate = () => {
+        navigation.replace('Home');
+    }
+
+
 
     return (
         <View>
-            <TouchableOpacity onPress={() => HandleNavigate('Home')} style={styles.logout}>
+            <TouchableOpacity onPress={funcHandleNavigate} style={styles.logout}>
             <Text style={styles.cancel}>Cancel</Text>
             </TouchableOpacity>
             <View>
                 <RollbackOutlined style={styles.icon} onPress={HandleNavigate}/>
             </View>
 
-            <View style={styles.inputview}>
+            {/*<View style={styles.inputview}>
                 <TextInput
                   placeholder="Numéro de série"
                   style={styles.input}
@@ -51,7 +57,7 @@ export default function AddItem() {
                   placeholder="Nom du produit"
                   style={styles.input}
                 />
-            </View>     
+            </View>     */}
             <TableItem />    
         </View>
     );

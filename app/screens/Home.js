@@ -62,9 +62,6 @@ export default function Home() {
         <TouchableOpacity onPress={() => HandleNavigate('Stock')} style={styles.logout}>
           <Text>Check Stock</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => HandleNavigate('EditItem')} style={styles.logout}>
-          <Text>Edit Items</Text>
-        </TouchableOpacity>
         <TouchableOpacity onPress={() => HandleNavigate('AddItem')}  style={styles.logout}>
           <Text>Add Items</Text>
         </TouchableOpacity>
